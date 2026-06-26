@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>glass · software engineer</title>
+  <!-- Font & Icons (clean, professional) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    /* ---------- reset / base ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 20% 30%, #1b2a3a, #0e1620);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* animated gradient orbs (glass background enhancement) */
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      width: 40vmax;
+      height: 40vmax;
+      border-radius: 50%;
+      background: rgba(74, 144, 226, 0.10);
+      filter: blur(80px);
+      animation: floatOrb 18s infinite alternate ease-in-out;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    body::before {
+      top: -10%;
+      left: -10%;
+      background: rgba(100, 200, 255, 0.12);
+      animation-duration: 22s;
+    }
+
+    body::after {
+      bottom: -10%;
+      right: -10%;
+      background: rgba(200, 130, 255, 0.08);
+      animation-duration: 26s;
+      animation-delay: -4s;
+    }
+
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+      100% { transform: translate(6vw, 4vh) scale(1.2); opacity: 1; }
+    }
+    /* ---------- HEADER ---------- */
+    .site-header {
+      width: 100%;
+      max-width: 1200px;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-radius: 2rem;
+      padding: 1rem 2.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    }
+
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* ----- LOGO ----- */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1.4rem;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .logo i {
+      font-size: 1.8rem;
+      color: #6f9eff;
+    }
+
+   
+    /* ----- NAVIGATION ----- */
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      list-style: none;
+    }
+   /* ----- NAV ITEM WITH STRING DROP ----- */
+    .nav-item {
+      position: relative;
+      padding: 0.6rem 1.2rem;
+      cursor: pointer;
+    }
+
+    .nav-link {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #6f9eff;
+      transition: width 0.3s ease;
+    }
+    .nav-link i {
+      font-size: 0.7rem;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-item:hover .nav-link {
+      color: #fff;
+    }
+
+    .nav-item:hover .nav-link i {
+      transform: rotate(180deg);
+    }
+
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-shrink: 0;
+    }
+   /* ----- THE STRING (animated line) ----- */
+    .string-drop {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 0;
+      background: linear-gradient(180deg, #6f9eff, rgba(111, 158, 255, 0.1));
+      transition: height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 1;
+      opacity: 0;
+    }
+
+        .nav-item:hover .string-drop {
+      height: 40px;
+      opacity: 1;
+    }
+
+    /* ----- THE DROPDOWN PANEL (hangs from string) ----- */
+    .dropdown-panel {
+      position: absolute;
+      top: calc(100% + 40px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-10px);
+      min-width: 220px;
+      background: rgba(20, 30, 45, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 1rem;
+      padding: 0.6rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 10;
+    }
+
+    .nav-item:hover .dropdown-panel {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+      /* ----- DROPDOWN ITEMS ----- */
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.7rem 1.5rem;
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      border-left: 2px solid transparent;
+    }
+
+    .dropdown-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      border-left-color: #6f9eff;
+    }
+
+    .dropdown-item i {
+      width: 1.2rem;
+      color: #6f9eff;
+      font-size: 0.9rem;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.05);
+      margin: 0.3rem 1rem;
+    } 
+
+
+    /* ----- HEADER ACTIONS ----- */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-shrink: 0;
+    }
+    .btn-hire {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.6rem 1.6rem;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      background: #6f9eff;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-hire:hover {
+      background: #5a8ae0;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(111, 158, 255, 0.3);
+    }
+
+    
+    .btn-hire i {
+      font-size: 0.9rem;
+    }
+
+    .btn-menu {
+      display: none;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.4rem;
+      cursor: pointer;
+      padding: 0.4rem;
+    }
+
+    /* ---------- HERO SECTION ---------- */
+    .hero-section {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1.5rem;
+      align-items: start;
+      max-width: 1800px;
+      margin: 0 auto;
+      padding: 6rem 2rem 3rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* ---------- main glass card ---------- */
+    .glass-card {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-radius: 3.5rem;
+      padding: 2.5rem 3.5rem;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.4s ease;
+      animation: glassEntrance 1s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .glass-card:hover {
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.2);
+      transform: translateY(-4px);
+    }
+
+    @keyframes glassEntrance {
+      0% { opacity: 0; transform: scale(0.96) translateY(20px); backdrop-filter: blur(4px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); backdrop-filter: blur(16px) saturate(180%); }
+    }
+
+    .glass-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.03) 0%, transparent 60%);
+      pointer-events: none;
+      border-radius: 3.5rem;
+      z-index: 0;
+      animation: shimmer 12s infinite alternate;
+    }
+
+    @keyframes shimmer {
+      0% { opacity: 0.2; transform: translateX(-5%) translateY(-5%) scale(1); }
+      100% { opacity: 0.6; transform: translateX(5%) translateY(5%) scale(1.1); }
+    }
+
+    .glass-card > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ---------- typography & layout ---------- */
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.8rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 1.8rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1.6rem;
+      letter-spacing: -0.02em;
+    }
+
+    .logo i {
+      font-size: 2.2rem;
+      background: linear-gradient(135deg, #a0d0ff, #6f9eff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 0 8px rgba(100, 180, 255, 0.3));
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 400;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links span {
+      cursor: default;
+      transition: color 0.2s, transform 0.2s;
+      padding: 0.2rem 0;
+      border-bottom: 1px solid transparent;
+    }
+
+    .nav-links span:hover {
+      color: #fff;
+      border-bottom-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+      align-items: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .hero-content {
+      flex: 2 1 300px;
+    }
+
+    .hero-content .badge {
+      display: inline-block;
+      background: rgba(100, 180, 255, 0.15);
+      backdrop-filter: blur(4px);
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: #b0d4ff;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-content h1 {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: #fff;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+    }
+
+    .hero-content h1 i {
+      color: #7bb3ff;
+      font-weight: 300;
+      margin-right: 0.2rem;
+    }
+
+    .hero-content .highlight {
+      background: linear-gradient(135deg, #b6d6ff, #6f9eff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 700;
+    }
+
+    .hero-content p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.1rem;
+      max-width: 480px;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      font-weight: 300;
+      backdrop-filter: blur(2px);
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem 1.2rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.7rem 1.8rem;
+      border-radius: 60px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      cursor: default;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: rgba(100, 170, 255, 0.2);
+      border-color: rgba(100, 170, 255, 0.4);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(70, 140, 255, 0.15);
+    }
+
+    .btn-primary i {
+      color: #8bbfff;
+    }
+
+    .btn-primary:hover {
+      background: rgba(100, 170, 255, 0.35);
+      border-color: #7bb3ff;
+      transform: scale(1.02) translateY(-2px);
+      box-shadow: 0 8px 30px rgba(70, 140, 255, 0.25);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: scale(1.02) translateY(-2px);
+    }
+
+    .hero-avatar {
+      flex: 1 1 180px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .avatar-frame {
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(100, 180, 255, 0.2), rgba(180, 130, 255, 0.2));
+      backdrop-filter: blur(8px);
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4.8rem;
+      color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s ease;
+      animation: avatarGlow 6s infinite alternate;
+    }
+
+    .avatar-frame i {
+      filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.3));
+    }
+
+    @keyframes avatarGlow {
+      0% { box-shadow: 0 0 20px rgba(70, 140, 255, 0.2); border-color: rgba(255,255,255,0.1); }
+      100% { box-shadow: 0 0 40px rgba(100, 180, 255, 0.4); border-color: rgba(255,255,255,0.3); }
+    }
+
+    /* ---------- SOCIAL LINKS (glass panels) ---------- */
+    .social-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-top: 1.5rem;
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(8px);
+      border-radius: 60px;
+      padding: 0.7rem 1.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: default;
+      letter-spacing: 0.01em;
+    }
+
+    .social-link i {
+      font-size: 1.4rem;
+      transition: transform 0.2s ease;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .social-link.github i { color: #c9d1d9; }
+    .social-link.linkedin i { color: #0a66c2; }
+    .social-link.twitter i { color: #1da1f2; }
+    .social-link.docker i { color: #2496ed; }
+    .social-link.stack i { color: #f48024; }
+
+    .social-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-4px) scale(1.02);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+      color: #fff;
+    }
+
+    .social-link:hover i {
+      transform: scale(1.1) translateY(-1px);
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.1));
+    }
+
+    .social-link.github:hover i { color: #ffffff; }
+    .social-link.linkedin:hover i { color: #0a66c2; }
+    .social-link.twitter:hover i { color: #1da1f2; }
+    .social-link.docker:hover i { color: #2496ed; }
+    .social-link.stack:hover i { color: #f48024; }
+
+    /* ---------- footer / micro ---------- */
+    .footer-note {
+      margin-top: 2.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      color: rgba(255, 255, 255, 0.25);
+      font-size: 0.8rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      padding-top: 1.8rem;
+    }
+
+    .footer-note .social i {
+      font-size: 1.2rem;
+      margin-left: 1rem;
+      color: rgba(255, 255, 255, 0.2);
+      transition: color 0.2s, transform 0.2s;
+      cursor: default;
+    }
+
+    .footer-note .social i:hover {
+      color: rgba(255, 255, 255, 0.6);
+      transform: scale(1.1) translateY(-2px);
+    }
+
+    /* ---------- GLASS FORM STYLES ---------- */
+    .form-section {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-radius: 2rem;
+      padding: 2.2rem 2.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+
+    .form-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.03) 0%, transparent 60%);
+      pointer-events: none;
+      animation: shimmer 12s infinite alternate;
+    }
+
+    .form-header {
+      margin-bottom: 1.8rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .form-header h2 {
+      color: #fff;
+      font-size: 1.8rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .form-header h2 i {
+      color: #7bb3ff;
+      font-size: 1.6rem;
+    }
+
+    .form-header p {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.95rem;
+      font-weight: 300;
+    }
+
+    .glass-form {
+      position: relative;
+      z-index: 2;
+    }
+
+    .form-group {
+      margin-bottom: 1.4rem;
+    }
+
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.02em;
+    }
+
+    .form-group label i {
+      color: rgba(100, 180, 255, 0.5);
+      font-size: 0.9rem;
+      width: 1.2rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 0.8rem;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(255, 255, 255, 0.25);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(100, 180, 255, 0.3);
+      box-shadow: 0 0 20px rgba(70, 140, 255, 0.05);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 0.8rem 1.8rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1rem;
+      background: rgba(100, 170, 255, 0.2);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(100, 170, 255, 0.3);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(70, 140, 255, 0.1);
+    }
+
+    .btn-submit:hover {
+      background: rgba(100, 170, 255, 0.35);
+      border-color: #7bb3ff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(70, 140, 255, 0.2);
+    }
+
+    .btn-submit:active {
+      transform: scale(0.98);
+    }
+
+    .btn-submit i {
+      color: #8bbfff;
+    }
+
+    /* ---------- ADDITIONAL SECTIONS ---------- */
+    .section {
+      padding: 5rem 2rem;
+      max-width: 1700px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+
+    .section-title {
+      color: #fff;
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-subtitle {
+      color: rgba(255, 255, 255, 0.5);
+      text-align: center;
+      font-size: 1.1rem;
+      margin-bottom: 3rem;
+    }
+
+    /* Services Grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .service-card {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      transition: all 0.3s ease;
+    }
+
+    .service-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-5px);
+      border-color: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .service-card i {
+      font-size: 2.5rem;
+      color: #6f9eff;
+      margin-bottom: 1rem;
+    }
+
+    .service-card h3 {
+      color: #fff;
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .service-card p {
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.6;
+    }
+/* ---------- PORTFOLIO GRID ---------- */
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+/* ---------- PORTFOLIO ITEM (card container) ---------- */
+.portfolio-item {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.portfolio-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* ---------- PORTFOLIO PLACEHOLDER (image container) ---------- */
+.portfolio-placeholder {
+width: 550px;
+  background: linear-gradient(135deg, rgba(100, 180, 255, 0.1), rgba(180, 130, 255, 0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+}
+
+.portfolio-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ---------- PORTFOLIO CONTENT (text container) ---------- */
+.portfolio-content {
+  padding: 1.5rem;
+}
+
+.portfolio-content h3 {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.portfolio-content p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 0.8rem;
+}
+
+.portfolio-tag {
+  display: inline-block;
+  background: rgba(100, 180, 255, 0.12);
+  padding: 0.3rem 0.9rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  color: #b0d4ff;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+    /* CTA Section */
+    .cta-section {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 2rem;
+      padding: 4rem 3rem;
+      text-align: center;
+    }
+
+    .cta-section h2 {
+      color: #fff;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .cta-section p {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    /* Footer */
+    .site-footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 3rem 2rem;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 0.9rem;
+    }
+
+    .site-footer .footer-social {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .site-footer .footer-social i {
+      font-size: 1.4rem;
+      color: rgba(255, 255, 255, 0.3);
+      transition: color 0.3s ease;
+      cursor: default;
+    }
+
+    .site-footer .footer-social i:hover {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* ---------- responsive ---------- */
+    @media (max-width: 1024px) {
+      .hero-section {
+        grid-template-columns: 1fr;
+        max-width: 800px;
+        gap: 2rem;
+      }
+      
+      .form-section {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .site-header {
+        padding: 0.8rem 1.5rem;
+      }
+
+      .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #0e1620;
+        flex-direction: column;
+        padding: 1.5rem;
+        gap: 1.2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .nav-menu.open {
+        display: flex;
+      }
+
+      .btn-menu {
+        display: block;
+      }
+
+      .btn-hire {
+        padding: 0.5rem 1.2rem;
+        font-size: 0.85rem;
+      }
+
+      .hero-section {
+        padding: 5rem 1rem 2rem;
+        gap: 1.5rem;
+      }
+
+      .glass-card {
+        padding: 2rem 1.5rem;
+        border-radius: 2.5rem;
+      }
+
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+      }
+
+      .nav-links {
+        gap: 1.2rem;
+        font-size: 0.9rem;
+      }
+
+      .hero-avatar {
+        flex: 1 1 100%;
+      }
+
+      .avatar-frame {
+        width: 140px;
+        height: 140px;
+        font-size: 4rem;
+      }
+
+      .social-link {
+        padding: 0.5rem 1.2rem;
+        font-size: 0.85rem;
+      }
+
+      .social-link i {
+        font-size: 1.1rem;
+      }
+
+      .form-section {
+        padding: 1.8rem 1.5rem;
+        border-radius: 1.5rem;
+      }
+
+      .form-header h2 {
+        font-size: 1.5rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .cta-section {
+        padding: 2.5rem 1.5rem;
+      }
+
+      .cta-section h2 {
+        font-size: 2rem;
+      }
+
+      .services-grid,
+      .portfolio-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo {
+        font-size: 1.2rem;
+      }
+      .logo i {
+        font-size: 1.4rem;
+      }
+      .btn-hire span {
+        display: none;
+      }
+      .btn-hire i {
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+<body> <header class="site-header">
+    <div class="header-container">
+      <!-- Logo -->
+      <a href="#" class="logo">
+        <i class="fas fa-cube"></i>
+        <span>engineer</span>
+      </a>
+
+      <!-- Navigation -->
+      <nav class="nav-menu">
+        <!-- Home (no dropdown) -->
+        <div class="nav-item">
+          <a href="#" class="nav-link">
+            <span>Home</span>
+          </a>
+        </div>
+
+        <!-- Career (with string drop) -->
+        <div class="nav-item">
+          <a href="#" class="nav-link">
+            <span>Career</span>
+            <i class="fas fa-chevron-down"></i>
+          </a>
+          <!-- The string that drops down -->
+          <div class="string-drop"></div>
+          <!-- The panel that hangs from the string -->
+          <div class="dropdown-panel">
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-briefcase"></i> Job Openings
+            </a>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-user-tie"></i> Leadership
+            </a>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-graduation-cap"></i> Internships
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-handshake"></i> Culture
+            </a>
+          </div>
+        </div>
+
+        <!-- Services (with string drop) -->
+        <div class="nav-item">
+          <a href="#" class="nav-link">
+            <span>Services</span>
+            <i class="fas fa-chevron-down"></i>
+          </a>
+          <div class="string-drop"></div>
+          <div class="dropdown-panel">
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-code"></i> Web Development
+            </a>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-cloud"></i> Cloud Solutions
+            </a>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-mobile-alt"></i> Mobile Apps
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-shield-alt"></i> Security Audit
+            </a>
+          </div>
+        </div>
+
+        <!-- Resources (with string drop) -->
+        <div class="nav-item">
+          <a href="#" class="nav-link">
+            <span>Resources</span>
+            <i class="fas fa-chevron-down"></i>
+          </a>
+          <div class="string-drop"></div>
+          <div class="dropdown-panel">
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-book"></i> Documentation
+            </a>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-video"></i> Video Tutorials
+            </a>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-blog"></i> Blog
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-download"></i> Free Resources
+            </a>
+          </div>
+        </div>
+
+        <!-- About (no dropdown) -->
+        <div class="nav-item">
+          <a href="#" class="nav-link">
+            <span>About</span>
+          </a>
+        </div>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <button class="btn-hire">
+          <i class="fas fa-rocket"></i>
+          <span>Hire Me</span>
+        </button>
+        <button class="btn-menu" aria-label="Toggle menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+  <!-- HERO SECTION (glass card + form side by side) -->
+  <section class="hero-section">
+    <!-- Glass Card -->
+    <div class="glass-card">
+      <!-- internal header -->
+      <div class="header">
+        <div class="logo">
+          <i class="fas fa-cube"></i>
+          <span>engineer</span>
+        </div>
+        <div class="nav-links">
+          <span>work</span>
+          <span>craft</span>
+          <span>insights</span>
+          <span>contact</span>
+        </div>
+      </div>
+
+      <!-- hero content -->
+      <div class="hero">
+        <div class="hero-content">
+          <div class="badge">
+            <i class="fas fa-code" style="margin-right: 6px;"></i> full-stack · systems
+          </div>
+          <h1>
+            <i class="fas fa-bolt" style="font-size: 0.8em; opacity: 0.6;"></i> 
+            build <span class="highlight">anything</span><br />with clarity.
+          </h1>
+          <p>
+            I'm a software engineer who designs robust, scalable systems 
+            and crafts interfaces that feel like glass — transparent, 
+            fluid, and precise.
+          </p>
+          <div class="btn-group">
+            <span class="btn btn-primary">
+              <i class="fas fa-rocket"></i> view projects
+            </span>
+            <span class="btn btn-outline">
+              <i class="fas fa-paper-plane"></i> let's talk
+            </span>
+          </div>
+        </div>
+        <div class="hero-avatar">
+          <div class="avatar-frame">
+            <i class="fas fa-user-astronaut"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOCIAL LINKS -->
+      <div class="social-grid">
+        <a href="#" class="social-link github" aria-label="GitHub">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+        <a href="#" class="social-link linkedin" aria-label="LinkedIn">
+          <i class="fab fa-linkedin-in"></i> LinkedIn
+        </a>
+        <a href="#" class="social-link twitter" aria-label="Twitter">
+          <i class="fab fa-x-twitter"></i> Twitter
+        </a>
+        <a href="#" class="social-link docker" aria-label="Docker">
+          <i class="fab fa-docker"></i> Docker
+        </a>
+        <a href="#" class="social-link stack" aria-label="Stack Overflow">
+          <i class="fab fa-stack-overflow"></i> Stack
+        </a>
+      </div>
+
+      <!-- footer -->
+      <div class="footer-note">
+        <span>✦ 2026 · glass design system</span>
+        <div class="social">
+          <i class="fab fa-github"></i>
+          <i class="fab fa-linkedin-in"></i>
+          <i class="fab fa-x-twitter"></i>
+          <i class="fab fa-docker"></i>
+        </div>
+      </div>
+    </div>
+      <div class="social-grid">
+        <a href="#" class="social-link github" aria-label="GitHub">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+        <a href="#" class="social-link linkedin" aria-label="LinkedIn">
+          <i class="fab fa-linkedin-in"></i> LinkedIn
+        </a>
+        <a href="#" class="social-link twitter" aria-label="Twitter">
+          <i class="fab fa-x-twitter"></i> Twitter
+        </a>
+        <a href="#" class="social-link docker" aria-label="Docker">
+          <i class="fab fa-docker"></i> Docker
+        </a>
+
+    
+    <!-- Form Section (side by side with glass card) -->
+    <div class="form-section">
+      <div class="form-header">
+        <h2><i class="fas fa-paper-plane"></i> Get in Touch</h2>
+        <p>Let's build something amazing together</p>
+      </div>
+
+      <form class="glass-form">
+        <div class="form-group">
+          <label for="name">
+            <i class="fas fa-user"></i> Full Name
+          </label>
+          <input type="text" id="name" placeholder="John Doe" />
+        </div>
+
+        <div class="form-group">
+          <label for="email">
+            <i class="fas fa-envelope"></i> Email Address
+          </label>
+          <input type="email" id="email" placeholder="john@example.com" />
+        </div>
+
+        <div class="form-group">
+          <label for="subject">
+            <i class="fas fa-tag"></i> Subject
+          </label>
+          <input type="text" id="subject" placeholder="Project inquiry" />
+        </div>
+
+        <div class="form-group">
+          <label for="message">
+            <i class="fas fa-comment"></i> Message
+          </label>
+          <textarea id="message" rows="4" placeholder="Tell me about your project..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          <i class="fas fa-rocket"></i> Send Message
+        </button>
+      </form>
+    </div>
+</div>
+  </section>
+
+  <!-- SERVICES SECTION -->
+  <section class="section" id="services">
+    <h2 class="section-title">What I Build</h2>
+    <p class="section-subtitle">Full-stack solutions with precision and clarity</p>
+    
+    <div class="services-grid">
+      <div class="service-card">
+        <i class="fas fa-code"></i>
+        <h3>Web Applications</h3>
+        <p>Scalable, performant web apps built with modern frameworks and clean architecture.</p>
+      </div>
+      <div class="service-card">
+        <i class="fas fa-cloud"></i>
+        <h3>Cloud Systems</h3>
+        <p>Robust cloud infrastructure design and implementation using AWS, Azure, or GCP.</p>
+      </div>
+      <div class="service-card">
+        <i class="fas fa-mobile-alt"></i>
+        <h3>Mobile First</h3>
+        <p>Responsive, mobile-first interfaces that work seamlessly across all devices.</p>
+      </div>
+      <div class="service-card">
+        <i class="fas fa-shield-alt"></i>
+        <h3>Security & Performance</h3>
+        <p>Secure, optimized systems with 99.9% uptime and best-in-class performance.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO SECTION -->
+  <section class="section" id="work">
+    <h2 class="section-title">Recent Work</h2>
+    <p class="section-subtitle">Projects crafted with precision and purpose</p>
+    
+    <div class="portfolio-grid">
+      <div class="portfolio-item">
+        <div class="portfolio-placeholder">
+          <img src="download (4).jpeg">
+          <i class="fas fa-project-diagram"></i>
+        </div>
+        <div class="portfolio-content">
+          <h3>E-commerce Platform</h3>
+          <p>Full-stack e-commerce solution with real-time inventory and payment processing.</p>
+          <span class="portfolio-tag">React · Node.js · Stripe</span>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <div class="portfolio-placeholder">
+          <img src="download (4).jpeg">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="portfolio-content">
+          <h3>Analytics Dashboard</h3>
+          <p>Real-time data visualization dashboard with custom reporting and insights.</p>
+          <span class="portfolio-tag">Vue · D3 · Firebase</span>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <div class="portfolio-placeholder">
+          <img src="download (4).jpeg">
+          <i class="fas fa-robot"></i>
+        </div>
+        <div class="portfolio-content">
+          <h3>AI-Powered Assistant</h3>
+          <p>Intelligent chatbot and automation system using machine learning models.</p>
+          <span class="portfolio-tag">Python · TensorFlow · Flask</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section class="section">
+    <div class="cta-section">
+      <h2>Ready to Build Together?</h2>
+      <p>Let's turn your vision into reality with clean, scalable, and elegant solutions.</p>
+      <div class="btn-group" style="justify-content: center;">
+        <span class="btn btn-primary">
+          <i class="fas fa-paper-plane"></i> Start a Project
+        </span>
+        <span class="btn btn-outline">
+          <i class="fas fa-phone"></i> Book a Call
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SITE FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-social">
+      <i class="fab fa-github"></i>
+      <i class="fab fa-linkedin-in"></i>
+      <i class="fab fa-x-twitter"></i>
+      <i class="fab fa-docker"></i>
+      <i class="fab fa-stack-overflow"></i>
+    </div>
+    <p>✦ 2026 · Designed with clarity · Built with precision</p>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    document.querySelector('.btn-menu').addEventListener('click', function() {
+      document.querySelector('.nav-menu').classList.toggle('open');
+    });
+  </script>
+    <script>
+    // Mobile menu toggle
+    document.querySelector('.btn-menu').addEventListener('click', function() {
+      document.querySelector('.nav-menu').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>
